@@ -27,9 +27,13 @@ set textwidth=0
 let g:leave_my_textwidth_alone=1
 " enables editor only linebreak at col 100
 set linebreak
-" centralize swap files
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" centralize swap files and teach vim to respect XDG
+" (https://tlvince.com/vim-respect-xdg)
+set directory=$XDG_CACHE_HOME/vim,~/.tmp,/tmp
+set backupdir=$XDG_CACHE_HOME/vim,~/.tmp,/tmp
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 " prep for lighter backgrounds
 set background=light
 " allow crontab editing
@@ -68,6 +72,8 @@ set shortmess=atI
 set guiheadroom=0
 " use a ruler to show where the cursor is
 set ruler
+
+
 
 " toggle line number with ' n'
 nmap <silent> <leader>l :set number!<CR>
