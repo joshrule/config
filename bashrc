@@ -6,14 +6,15 @@
 # prompts
 if [ -n "$SSH_CLIENT" ]; then
     # SSH goes yellow
-    export PS1='\[\e[0;33m\]SSH \u@\h:\W $\[\e[m\] '
+    export PS1='\[\e[0;33m\][\D{%F %T} \u@\h:\w\$]\[\e[m\] '
 elif [ `/usr/bin/whoami` = "root" ] ; then
     # root goes red
-    export PS1="\[\033[1;31m\]\W\$ \[\033[0m\]"
+    export PS1='\[\033[1;31m\][\D{%F %T} \w\$]\[\033[0m\] '
 else
     # else plain
-    export PS1='\[\e[1;32m\]\w >>\[\e[0m\] '
+    export PS1='\[\e[1;32m\][\D{%F %T} \w]\[\e[0m\] '
 fi
+
 # I mostly use emacs, but that's not always available
 export EDITOR="vim"
 
