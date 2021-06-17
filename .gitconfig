@@ -1,0 +1,12 @@
+[user]
+	name = Josh Rule
+	email = joshua.s.rule@gmail.com
+[core]
+	autocrlf = input
+[diff "pandoc"]
+    textconv=pandoc --to=markdown
+    prompt = false
+[alias]
+    wdiff = diff --word-diff=color --unified=1
+[init]
+	defaultBranch = main
