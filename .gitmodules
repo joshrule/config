@@ -1,0 +1,3 @@
+[submodule "users/rule/emacs-overlay"]
+	path = users/rule/emacs-overlay
+	url = https://github.com/joshrule/emacs-overlay.git
