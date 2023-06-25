@@ -38,6 +38,7 @@ alias gl="git log --oneline -n $1"
 alias gg="git log --branches --remotes --tags --graph --oneline --decorate"
 alias ml="/Applications/MATLAB_R2013b.app/bin/matlab -nodisplay -nodesktop -nosplash -logfile ~/.matlab/log"
 alias e="emacs"
+alias timestamp="date --utc +%Y-%m-%d-%H-%M-%S"
 
 # FUNCTIONS
 
