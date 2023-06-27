@@ -1,5 +1,7 @@
-{ config, lib, pkgs, ... }:
-
+{ flake-inputs, config, lib, pkgs, ... }:
+let
+  doom-install-dir = "${config.xdg.configHome}/emacs/bin";
+in
 {
   # nixpkgs.overlays = [ inputs.emacs-overlay.overlay ];
 
@@ -46,7 +48,7 @@
     tree-sitter-grammars.tree-sitter-yaml
   ];
 
-  home.sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
+  home.sessionPath = [ doom-install-dir ];
 
   home.sessionVariables = with config.xdg; {
     DOOMDIR = "${configHome}/doom";
@@ -56,29 +58,17 @@
   # fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
 
   xdg.configFile.emacs = {
-    source = builtins.fetchGit {
-        url = "https://github.com/hlissner/doom-emacs";
-        ref = "develop";
-    };
+    source = flake-inputs.doom;
+    # TODO: Pull in source-controlled versions of personal doom configuration.
     onChange = "${pkgs.writeShellScript "doom-change" ''
         export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
         export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
         if [ ! -d "$DOOMLOCALDIR" ]; then
-            # ${config.xdg.configHome}/emacs/bin/doom -y install
-            echo "YOU NEED TO INSTALL DOOM"
+            ${doom-install-dir}/doom --force install
         else
-            ${config.xdg.configHome}/doom/bin/doom -y clean
-            ${config.xdg.configHome}/doom/bin/doom -y sync -u
+            ${doom-install-dir}/doom clean
+            ${doom-install-dir}/doom sync -u
         fi
     ''}";
   };
-
-  # system.userActivationScripts = {
-  #   installDoomEmacs = ''
-  #     if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
-  #        git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
-  #        git clone "${cfg.doom.configRepoUrl}" "$XDG_CONFIG_HOME/doom"
-  #     fi
-  #   '';
-  # };
 }

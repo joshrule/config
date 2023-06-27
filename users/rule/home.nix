@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ flake-inputs, config, pkgs, lib, ... }:
 
 let
   # Escaping `$` with `''$`:

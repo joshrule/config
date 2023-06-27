@@ -12,9 +12,23 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    doom = {
+      type = "github";
+      owner = "doomemacs";
+      repo = "doomemacs";
+      ref = "master";
+      flake = false;
+    };
   };
 
-  outputs = { emacs-overlay, home-manager, nixpkgs, nixos-hardware, ... }:
+  outputs = {
+    doom,
+    emacs-overlay,
+    home-manager,
+    nixpkgs,
+    nixos-hardware,
+    ...
+  } @ inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -30,7 +44,8 @@
       # https://github.com/nix-community/home-manager/issues/2942#issuecomment-1378627909
       # TODO: should I be using that "legacyPackages" command here?
       pkgs = pkgs;
-      modules = [ ./users/rule/home.nix ./users/rule/emacs.nix ];
+      modules = [ ./users/rule/home.nix ];
+      extraSpecialArgs.flake-inputs = inputs;
       # Optionally use extraSpecialArgs to pass arguments to home.nix.
     };
     nixosConfigurations = {
