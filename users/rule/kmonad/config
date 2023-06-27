@@ -1,0 +1,64 @@
+(defcfg
+   ;; The keyboard we are hooking onto - required.
+   input (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+   ;; How we write out information - required.
+   output (uinput-sink
+           "KMonad: internal"
+           "/run/current-system/sw/bin/sleep 1 && /run/current-system/sw/bin/setxkbmap -option compose:ralt -option caps:none")
+)
+
+(defalias
+    ac (tap-next ent rctl)
+    ec (tap-next esc lctl)
+    num (layer-toggle num))
+
+;; This is the base map of my X1 Carbon Gen 9.
+;; (defsrc
+;;   esc  mute vold volu f20  brdn bru  switchvideomode wlan f21  f22  f23  bookmarks home end  ins  del
+;;   `    1    2    3    4    5    6    7    8    9    0    -    =    bspc
+;;   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+;;   caps a    s    d    f    g    h    j    k    l    scln apos ent
+;;   lsft z    x    c    v    b    n    m    ,    .    /    rsft
+;;   wkup lctl lmet lalt           spc            ralt sys  rctl pgup up   pgdn
+;;                                                               left down rght
+;; )
+;;
+;;(deflayer base
+;;  esc  mute vold volu ent  brdn bru  switchvideomode wlan f21  f22  f23  a home end  ins  del
+;;  `    1    2    3    4    5    6    7    8    9    0    -    =    bspc
+;;  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+;;  @ec  a    s    d    f    g    h    j    k    l    scln apos ent
+;;  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+;;  wkup lctl lmet lalt           spc            ralt sys  rctl pgup up   pgdn
+;;                                                              left down rght
+;;)
+
+(defsrc
+  esc  mute vold volu      brdn bru                                home end  ins  del
+  `    1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret
+  caps a    s    d    f    g    h    j    k    l    scln apos \
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  wkup lctl lmet lalt           spc            ralt sys  rctl pgup up   pgdn
+                                                              left down rght
+)
+
+(deflayer base
+  esc  mute vold volu      brdn bru                                home end  ins  del
+  `    1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret
+  @ec  a    s    d    f    g    h    j    k    l    scln apos \
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  wkup lctl lmet lalt           spc            @num sys  rctl pgup up   pgdn
+                                                              left down rght
+)
+
+(deflayer num
+  esc  _    _    _         _    _                                  home end  ins  del
+  `    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret
+  @ec  1    2    3    4    5    6    7    8    9    0    apos \
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  wkup lctl lmet lalt           spc            _    sys  rctl pgup up   pgdn
+                                                              left down rght
+)

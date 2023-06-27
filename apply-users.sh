@@ -1,4 +1,4 @@
 #!/bin/sh
 pushd ~/project/config
-home-manager switch --impure --flake .#rule
+home-manager switch --flake .#rule
 popd

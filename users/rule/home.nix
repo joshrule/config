@@ -141,14 +141,14 @@ in
           #   Xcursor.theme: "Adwaita"
           #   Xcursor.size: 48
           # '';
-          "alacritty/alacritty.yml".source = "${config.home.sessionVariables.CONFIGDIR}/alacritty/alacritty.yml";
-          "foot/foot.ini".source = "${config.home.sessionVariables.CONFIGDIR}/foot/foot.ini";
-          "kmonad/config".source = "${config.home.sessionVariables.CONFIGDIR}/kmonad/config";
-          "sway/config".source = "${config.home.sessionVariables.CONFIGDIR}/sway/config";
-          "tmux/.tmux.conf".source = "${config.home.sessionVariables.CONFIGDIR}/tmux.conf";
-          "vim/.vimrc".source = "${config.home.sessionVariables.CONFIGDIR}/vimrc";
-          "waybar/style.css".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/style.css";
-          "waybar/config".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/config";
+          "alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
+          "foot/foot.ini".source = ./foot/foot.ini;
+          "kmonad/config".source = ./kmonad/config;
+          "tmux/.tmux.conf".source = ./tmux/tmux.conf;
+          "vim/.vimrc".source = ./vim/vimrc;
+          #"sway/config".source = "${config.home.sessionVariables.CONFIGDIR}/sway/config";
+          #"waybar/style.css".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/style.css";
+          #"waybar/config".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/config";
           # Gdk/WindowScalingFactor 2
           # Xft/dpi 375808
           # "xsettingsd/xsettingsd.conf".text = ''
