@@ -11,7 +11,6 @@
 
   imports =
     [
-      <nixos-hardware/lenovo/thinkpad/x1/9th-gen>
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./cachix.nix

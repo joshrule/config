@@ -14,7 +14,7 @@ let
     done
   '';
 
-  local-logseq = with pkgs; import ./logseq.nix { inherit lib stdenv fetchurl appimageTools makeWrapper electron_15; };
+  # local-logseq = with pkgs; import ./logseq.nix { inherit lib stdenv fetchurl appimageTools makeWrapper electron_15; };
 
   kmonad = import ./kmonad.nix;
 
@@ -26,26 +26,14 @@ let
 
   python-with-my-packages = pkgs.python39.withPackages my-python-packages;
 
-  unstable = import (fetchTarball
-    "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") {
-      overlays = [
-        # # Emacs Overlay for gccemacs.
-        # (import (builtins.fetchTarball {
-        #   url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-        # }))
-        # Local Emacs Overlay for gccemacs.
-        (import ./emacs-overlay)
-      ];
-    };
-
 in 
 {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  nixpkgs.config.allowUnfree = true;
 
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
+  imports = [ ./emacs.nix ];
+
+  # Home Manager needs information about you and the paths it should manage.
   home = {
     username = "rule";
     homeDirectory = "/home/rule";
@@ -54,37 +42,23 @@ in
       remove-live-photos
       kmonad                         # to control mine keys.
       # cli
-      (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ])) # for doom :checkers spell
       acpi                           # Query battery state.
-      clang                          # for doom-emacs
       cmake
-      coreutils                      # for doom-emacs
       dropbox
       exa                            # so nice for ls
-      fd                             # for doom-emacs
       git-lfs                        # for BIG-bench
       glxinfo                        # Test opengl with glxgears.
       htop                           # Replace top with something reasonable.
       jq
       lesspipe                       # See more from the command line.
-      mdl                            # for doom-emacs :lang markdown
-      nixfmt                         # for doom-emacs :lang nix
       nix-index                      # for locating files
       nodejs
       nodePackages.npm
       nodePackages.eslint
-      nodePackages.yaml-language-server # for doom-emacs :lang yaml
-      tree-sitter                    # for doom-emacs :lang yaml
-      tree-sitter-grammars.tree-sitter-yaml # for doom-emacs :lang yaml
-      pandoc                         # for doom-emacs :lang markdown
       parallel                       # Run stuff in parallel.
       pipenv
       pulseaudio                     # to control volume buttons
       qt5ct                          # This helps zoom work better.
-      ripgrep                        # for doom-emacs
-      shellcheck                     # for doom-emacs :lang shell
-      sqlite                         # for doom-emacs :lang org
-      texlab                         # for doom-emacs :lang latex
       unzip                          # for opening stuff
       util-linux
       xsettingsd
@@ -94,11 +68,8 @@ in
       texlive.combined.scheme-full
       # fonts
       corefonts                      # times, verdana, etc.
-      emacs-all-the-icons-fonts      # for doom-emacs
       font-awesome                   # for waybar.
-      # jetbrains-mono                 # Trying out a new font.
-      # roboto                         # Such a nice font.
-      google-fonts
+      google-fonts                   # (almost) everything I ever wanted.
       # gui
       alacritty
       chromium
@@ -122,11 +93,11 @@ in
       gnome.adwaita-icon-theme
       moka-icon-theme
     ];
-    sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
+    #sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
     sessionVariables = with config.xdg; {
       CONFIGDIR = "${config.home.homeDirectory}/project/config";
-      DOOMDIR = "${configHome}/doom";
-      DOOMLOCALDIR = "${configHome}/doom";
+      #DOOMDIR = "${configHome}/doom";
+      #DOOMLOCALDIR = "${configHome}/doom";
       MOZ_ENABLE_WAYLAND = 1;
       # XDG_CURRENT_DESKTOP = "sway";
       # Configure GDK for HiDPI.
@@ -193,23 +164,24 @@ in
           #   Xcursor/size 48
           #   Xcursor/theme "Adwaita"
           # '';
-          "emacs" = {
-              source = builtins.fetchGit {
-                  url = "https://github.com/hlissner/doom-emacs";
-                  ref = "develop";
-              };
-              onChange = "${pkgs.writeShellScript "doom-change" ''
-                  export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
-                  export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
-                  if [ ! -d "$DOOMLOCALDIR" ]; then
-                      # ${config.xdg.configHome}/emacs/bin/doom -y install
-                      echo "YOU NEED TO INSTALL DOOM"
-                  else
-                      ${config.xdg.configHome}/doom/bin/doom -y clean
-                      ${config.xdg.configHome}/doom/bin/doom -y sync -u
-                  fi
-              ''}";
-          };
+          # TODO: remove me
+          # "emacs" = {
+          #     source = builtins.fetchGit {
+          #         url = "https://github.com/hlissner/doom-emacs";
+          #         ref = "develop";
+          #     };
+          #     onChange = "${pkgs.writeShellScript "doom-change" ''
+          #         export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
+          #         export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
+          #         if [ ! -d "$DOOMLOCALDIR" ]; then
+          #             # ${config.xdg.configHome}/emacs/bin/doom -y install
+          #             echo "YOU NEED TO INSTALL DOOM"
+          #         else
+          #             ${config.xdg.configHome}/doom/bin/doom -y clean
+          #             ${config.xdg.configHome}/doom/bin/doom -y sync -u
+          #         fi
+          #     ''}";
+          # };
       };
       cacheHome = "${config.home.homeDirectory}/.local/cache";
       configHome = "${config.home.homeDirectory}/.local/config";
@@ -248,13 +220,6 @@ in
         rm = "rm -i";
         timestamp = "date --utc +%Y-%m-%d-%H-%M-%S";
       };
-    };
-
-    # Use GCC emacs.
-    emacs = {
-      enable = true;
-      package = unstable.emacsPgtk;
-      extraPackages = epkgs: [ epkgs.vterm ];
     };
 
     # configuring git
