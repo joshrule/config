@@ -12,6 +12,10 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kmonad-overlay = {
+      url = "github:kmonad/kmonad?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     doom = {
       type = "github";
       owner = "doomemacs";
@@ -24,6 +28,7 @@
   outputs = {
     doom,
     emacs-overlay,
+    kmonad-overlay,
     home-manager,
     nixpkgs,
     nixos-hardware,
@@ -36,7 +41,7 @@
         config = {
             allowUnfree = true;
         };
-        overlays = [ (import emacs-overlay) ];
+        overlays = [ (import emacs-overlay) kmonad-overlay.overlays.default ];
     };
     lib = nixpkgs.lib;
   in {
