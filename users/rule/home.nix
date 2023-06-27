@@ -50,6 +50,7 @@ in
       jq
       lesspipe                       # See more from the command line.
       nix-index                      # for locating files
+      nixos-option                   # for checking system settings
       nodejs
       nodePackages.npm
       nodePackages.eslint

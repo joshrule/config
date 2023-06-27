@@ -41,6 +41,8 @@
       timeout = 0;
       efi.canTouchEfiVariables = true;
     };
+    # Disable containers because this install is old.
+    enableContainers = false;
     # Silent Boot
     # https://wiki.archlinux.org/title/Silent_boot
     kernelParams = [
