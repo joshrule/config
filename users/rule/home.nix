@@ -16,8 +16,6 @@ let
 
   # local-logseq = with pkgs; import ./logseq.nix { inherit lib stdenv fetchurl appimageTools makeWrapper electron_15; };
 
-  kmonad = import ./kmonad.nix;
-
   R-with-my-packages = pkgs.rWrapper.override{ packages = with pkgs.rPackages; [ tidyverse lme4 ]; };
 
   my-python-packages = python-packages: with python-packages; [
@@ -93,11 +91,8 @@ in
       gnome.adwaita-icon-theme
       moka-icon-theme
     ];
-    #sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
     sessionVariables = with config.xdg; {
       CONFIGDIR = "${config.home.homeDirectory}/project/config";
-      #DOOMDIR = "${configHome}/doom";
-      #DOOMLOCALDIR = "${configHome}/doom";
       MOZ_ENABLE_WAYLAND = 1;
       # XDG_CURRENT_DESKTOP = "sway";
       # Configure GDK for HiDPI.
@@ -164,24 +159,6 @@ in
           #   Xcursor/size 48
           #   Xcursor/theme "Adwaita"
           # '';
-          # TODO: remove me
-          # "emacs" = {
-          #     source = builtins.fetchGit {
-          #         url = "https://github.com/hlissner/doom-emacs";
-          #         ref = "develop";
-          #     };
-          #     onChange = "${pkgs.writeShellScript "doom-change" ''
-          #         export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
-          #         export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
-          #         if [ ! -d "$DOOMLOCALDIR" ]; then
-          #             # ${config.xdg.configHome}/emacs/bin/doom -y install
-          #             echo "YOU NEED TO INSTALL DOOM"
-          #         else
-          #             ${config.xdg.configHome}/doom/bin/doom -y clean
-          #             ${config.xdg.configHome}/doom/bin/doom -y sync -u
-          #         fi
-          #     ''}";
-          # };
       };
       cacheHome = "${config.home.homeDirectory}/.local/cache";
       configHome = "${config.home.homeDirectory}/.local/config";
