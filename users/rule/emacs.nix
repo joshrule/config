@@ -1,9 +1,14 @@
 { flake-inputs, config, lib, pkgs, ... }:
 let
   doom-install-dir = "${config.xdg.configHome}/emacs/bin";
+  update-doom-config = "${pkgs.writeShellScript "update-doom-config" ''
+    export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
+    export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
+    ${doom-install-dir}/doom clean
+    ${doom-install-dir}/doom sync -u
+  ''}";
 in
 {
-  # nixpkgs.overlays = [ inputs.emacs-overlay.overlay ];
 
   # Use GCC emacs.
   programs.emacs = {
@@ -55,12 +60,23 @@ in
     DOOMLOCALDIR = "${configHome}/doom";
   };
 
-  # fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
+  xdg.configFile."doom/init.el" = {
+    source = ./doom/init.el;
+    onChange = update-doom-config;
+  };
+  xdg.configFile."doom/config.el" = {
+    source = ./doom/config.el;
+    onChange = update-doom-config;
+  };
+  xdg.configFile."doom/packages.el" = {
+    source = ./doom/packages.el;
+    onChange = update-doom-config;
+  };
 
+  # https://discourse.nixos.org/t/advice-needed-installing-doom-emacs/8806
   xdg.configFile.emacs = {
     source = flake-inputs.doom;
-    # TODO: Pull in source-controlled versions of personal doom configuration.
-    onChange = "${pkgs.writeShellScript "doom-change" ''
+    onChange = "${pkgs.writeShellScript "update-doom" ''
         export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
         export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
         if [ ! -d "$DOOMLOCALDIR" ]; then
