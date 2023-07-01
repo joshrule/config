@@ -29,7 +29,10 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  imports = [ ./emacs.nix ];
+  imports = [
+    ./emacs.nix
+    ./tmux.nix
+  ];
 
   # Home Manager needs information about you and the paths it should manage.
   home = {
@@ -145,7 +148,6 @@ in
           "alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
           "foot/foot.ini".source = ./foot/foot.ini;
           "kmonad/config".source = ./kmonad/config;
-          "tmux/.tmux.conf".source = ./tmux/tmux.conf;
           "vim/.vimrc".source = ./vim/vimrc;
           #"sway/config".source = "${config.home.sessionVariables.CONFIGDIR}/sway/config";
           #"waybar/style.css".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/style.css";
@@ -214,10 +216,5 @@ in
 
     # set LESSOPEN to use lesspipe
     lesspipe.enable = true;
-
-    # configuring tmux
-    tmux = {
-      enable = true;
-    };
   };
 } 
