@@ -35,6 +35,22 @@
 
         # vim movement bindings in copy mode
         setw -g mode-keys vi
+
+        # vim bindings in copy mode
+        unbind -Tcopy-mode-vi v
+        bind   -Tcopy-mode-vi v send -X begin-selection
+        bind   -Tcopy-mode-vi 'C-v' send -X rectangle-toggle
+        bind   -Tcopy-mode-vi y send -X copy-selection
+
+        # reload
+        unbind R
+        bind R run-shell "tmux source-file $XDG_CONFIG_HOME/tmux/tmux.conf > /dev/null; tmux display-message \"Sourced tmux.conf!\""
+
+        # last window
+        unbind C-b
+        unbind b
+        bind C-b last-window
+        bind b send-prefix
       '';
   };
 
