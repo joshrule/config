@@ -13,6 +13,8 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # Configure keyboard.
+      ./keyboard.nix
     ];
 
   # Enable nix flakes and nix commands.
@@ -89,7 +91,6 @@
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
     packages = with pkgs; [ terminus_font ];
-    keyMap = "us";
   };
 
   # # Configure the TTY.
@@ -157,13 +158,6 @@
 #     '';
 #   };
 
-
-  # Allow me to use kmonad.
-  services.udev.extraRules =
-  ''
-    # KMonad user access to /dev/uinput
-    KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
-  '';
 
   # Allow firmware updating.
   services.fwupd.enable = true;
@@ -238,20 +232,14 @@
     ];
   };
 
-
   users = {
-    groups = { 
-      uinput = {};
-     };
     users = {
       # Define a user account. Don't forget to set a password with ‘passwd’.
       rule = {
         isNormalUser = true;
         extraGroups = [
-	  "audio"          # Let me control sound.
-          "input"          # Let me use kmonad.
+          "audio"          # Let me control sound.
           "networkmanager" # Let me control network connections.
-          "uinput"         # Let me use kmonad.
           "video"          # Let me control video.
           "wheel"          # Let me `sudo`.
         ];

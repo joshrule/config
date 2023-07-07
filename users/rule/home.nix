@@ -41,7 +41,6 @@ in
     packages = with pkgs; [
       # custom stuff
       remove-live-photos
-      kmonad                         # to control mine keys.
       # cli
       acpi                           # Query battery state.
       cmake
@@ -147,7 +146,6 @@ in
           # '';
           "alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
           "foot/foot.ini".source = ./foot/foot.ini;
-          "kmonad/config".source = ./kmonad/config;
           "vim/.vimrc".source = ./vim/vimrc;
           #"sway/config".source = "${config.home.sessionVariables.CONFIGDIR}/sway/config";
           #"waybar/style.css".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/style.css";

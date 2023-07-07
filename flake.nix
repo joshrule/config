@@ -12,10 +12,6 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    kmonad-overlay = {
-      url = "github:kmonad/kmonad?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     doom = {
       type = "github";
       owner = "doomemacs";
@@ -28,7 +24,6 @@
   outputs = {
     doom,
     emacs-overlay,
-    kmonad-overlay,
     home-manager,
     nixpkgs,
     nixos-hardware,
@@ -41,7 +36,7 @@
         config = {
             allowUnfree = true;
         };
-        overlays = [ (import emacs-overlay) kmonad-overlay.overlays.default ];
+        overlays = [ (import emacs-overlay) ];
     };
     lib = nixpkgs.lib;
   in {
@@ -50,8 +45,8 @@
       # TODO: should I be using that "legacyPackages" command here?
       pkgs = pkgs;
       modules = [ ./users/rule/home.nix ];
+      # Use extraSpecialArgs to pass arguments to home.nix.
       extraSpecialArgs.flake-inputs = inputs;
-      # Optionally use extraSpecialArgs to pass arguments to home.nix.
     };
     nixosConfigurations = {
       cogito = lib.nixosSystem {

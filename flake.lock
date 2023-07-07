@@ -77,28 +77,6 @@
         "type": "github"
       }
     },
-    "kmonad-overlay": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "nix",
-        "lastModified": 1687153676,
-        "narHash": "sha256-Q0VJWVBxmmKe55V7Lb+oqoOWWr5vhB46kEzU7v4jVD8=",
-        "owner": "kmonad",
-        "repo": "kmonad",
-        "rev": "2c658f6fddca39686a5448a0207a4aba215f3be5",
-        "type": "github"
-      },
-      "original": {
-        "dir": "nix",
-        "owner": "kmonad",
-        "repo": "kmonad",
-        "type": "github"
-      }
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1686838567,
@@ -152,7 +130,6 @@
         "doom": "doom",
         "emacs-overlay": "emacs-overlay",
         "home-manager": "home-manager",
-        "kmonad-overlay": "kmonad-overlay",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs"
       }
