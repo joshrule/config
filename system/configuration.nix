@@ -13,6 +13,8 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # Configure GNOME.
+      ./gnome.nix
       # Configure keyboard.
       ./keyboard.nix
     ];
@@ -105,21 +107,11 @@
   # };
 
   services.xserver = {
-
-    # Enable a windowing system.
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-
-    # Configure keymap
-    layout = "us";
-
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
 
     # video support
     videoDrivers = [ "modesetting" ];
-    dpi = 323;
   };
 
 #   # Power management
@@ -264,22 +256,6 @@
   #   enableSSHSupport = true;
   # };
   programs.less.enable = true;
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-    extraPackages = with pkgs; [
-      glib # for gsettings
-      swaylock
-      swayidle
-      xwayland
-      wl-clipboard
-      waybar
-      kanshi
-      mako
-      dmenu
-      wofi
-    ];
-  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

@@ -32,6 +32,7 @@ in
   imports = [
     ./emacs.nix
     ./tmux.nix
+    ./gnome.nix
   ];
 
   # Home Manager needs information about you and the paths it should manage.
@@ -90,23 +91,11 @@ in
       unison
       zoom-us
       zotero
-      # testing
-      gnome.adwaita-icon-theme
-      moka-icon-theme
     ];
     sessionVariables = with config.xdg; {
       CONFIGDIR = "${config.home.homeDirectory}/project/config";
       MOZ_ENABLE_WAYLAND = 1;
       # XDG_CURRENT_DESKTOP = "sway";
-      # Configure GDK for HiDPI.
-      #GDK_DPI_SCALE = 1.0;
-      #GDK_SCALE = 2.0;
-      # Configure QT for zoom.
-      QT_AUTO_SCALE_FACTOR= 1;
-      QT_QPA_PLATFORM="xcb";
-      QT_QPA_PLATFORMTHEME="qt5ct";
-      QT_WAYLAND_FORCE_DPI="physical";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION="1";
       # Configure Julia.
       JULIA_DEPOT_PATH="${dataHome}/julia:\$JULIA_DEPOT_PATH";
     };
@@ -147,9 +136,6 @@ in
           "alacritty/alacritty.yml".source = ./alacritty/alacritty.yml;
           "foot/foot.ini".source = ./foot/foot.ini;
           "vim/.vimrc".source = ./vim/vimrc;
-          #"sway/config".source = "${config.home.sessionVariables.CONFIGDIR}/sway/config";
-          #"waybar/style.css".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/style.css";
-          #"waybar/config".source = "${config.home.sessionVariables.CONFIGDIR}/waybar/config";
           # Gdk/WindowScalingFactor 2
           # Xft/dpi 375808
           # "xsettingsd/xsettingsd.conf".text = ''
