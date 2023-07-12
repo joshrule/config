@@ -16,8 +16,6 @@ let
 
   # local-logseq = with pkgs; import ./logseq.nix { inherit lib stdenv fetchurl appimageTools makeWrapper electron_15; };
 
-  R-with-my-packages = pkgs.rWrapper.override{ packages = with pkgs.rPackages; [ tidyverse lme4 ]; };
-
   my-python-packages = python-packages: with python-packages; [
     pip ipython
   ];
@@ -66,7 +64,6 @@ in
       xsettingsd
       # languages
       python-with-my-packages
-      R-with-my-packages
       texlive.combined.scheme-full
       # fonts
       corefonts                      # times, verdana, etc.
