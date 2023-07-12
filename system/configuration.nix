@@ -149,6 +149,13 @@
 #       idleAction=lock
 #     '';
 #   };
+  ## HiDPI
+  # 3840 x 2400 on 14.0" monitor
+  services.xserver.dpi = 323;
+  environment.variables = {
+    # Scale QT stuff automatically.
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+  };
 
 
   # Allow firmware updating.

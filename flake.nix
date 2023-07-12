@@ -54,6 +54,7 @@
         modules = [
           ./system/configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
+          nixos-hardware.nixosModules.common-hidpi
         ];
       };
     };
