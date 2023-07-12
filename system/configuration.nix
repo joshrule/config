@@ -32,10 +32,11 @@
   };
 
   # Configure booting.
-  # Use the systemd-boot EFI boot loader.
   boot = {
     # Stay up-to-date on the kernel.
     kernelPackages = pkgs.linuxPackages_latest;
+
+    # Use the systemd-boot EFI boot loader.
     loader = {
       systemd-boot = {
         enable = true;
@@ -45,8 +46,10 @@
       timeout = 0;
       efi.canTouchEfiVariables = true;
     };
+
     # Disable containers because this install is old.
     enableContainers = false;
+
     # Silent Boot
     # https://wiki.archlinux.org/title/Silent_boot
     kernelParams = [
@@ -61,25 +64,32 @@
     consoleLogLevel = 0;
     # github.com/NixOS/nixpkgs/pull/108294
     initrd.verbose = false;
+
     # Run plymouth.
     # plymouth.enable = true;
     # Load modules to help the boot splash screen.
     initrd.kernelModules = [ "i915" ];
+
+    # TODO: What am I for?
     tmp.cleanOnBoot = true;
   };
 
-
   # Configure networking.
-  networking.hostName = "cogito"; # Define your hostname.
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-  # https://github.com/NixOS/nixpkgs/issues/152288
-  # networking.interfaces.wlp0s20f3.useDHCP = true;
-  # Use networkmanager
-  networking.wireless.enable = false;
-  networking.networkmanager.enable = true;
+  networking = {
+    # Define the hostname.
+    hostName = "cogito";
+
+    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+    # Per-interface useDHCP will be mandatory in the future, so this generated config
+    # replicates the default behaviour.
+    useDHCP = false;
+    # https://github.com/NixOS/nixpkgs/issues/152288
+    # networking.interfaces.wlp0s20f3.useDHCP = true;
+
+    # Use networkmanager
+    wireless.enable = false;
+    networkmanager.enable = true;
+  };
 
   # Set time zones automatically.
   services.automatic-timezoned.enable = true;
@@ -95,17 +105,6 @@
     packages = with pkgs; [ terminus_font ];
   };
 
-  # # Configure the TTY.
-  # fonts.fonts = with pkgs; [ meslo-lgs-nf ];
-  # services.kmscon = {
-  #   enable = true;
-  #   hwRender = true;
-  #   extraConfig = ''
-  #     font-name=MesloLGS NF
-  #     font-size=18
-  #   '';
-  # };
-
   services.xserver = {
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
@@ -114,41 +113,6 @@
     videoDrivers = [ "modesetting" ];
   };
 
-#   # Power management
-#   services.tlp = {
-#     enable = true;
-#     settings = {
-#       "START_CHARGE_THRESH_BAT0" = 75;
-#       "STOP_CHARGE_THRESH_BAT0" = 80;
-#       "CPU_SCALING_GOVERNOR_ON_BAT" = "powersave";
-#       "ENERGY_PERF_POLICY_ON_BAT" = "power";
-#     };
-#   };
-# 
-#   # Sleep management
-#   environment.etc."systemd/sleep.conf".text = pkgs.lib.mkForce ''
-#     [Sleep]
-#     AllowSuspend=no
-#     AllowHybridSleep=yes
-#     AllowHiberation=yes
-#     AllowSuspendThenHibernate=yes
-#     SuspendMode=suspend
-#     SuspendState=mem
-#     HybridSleepMode=suspend
-#     HybridSleepState=mem
-#     HibernateMode=platform
-#     HibernateState=disk
-#     HibernateDelaySec=7200
-#   '';
-# 
-#   services.logind = with pkgs.lib; rec {
-#     lidSwitch = mkForce "suspend-then-hibernate";
-#     lidSwitchDocked = "ignore";
-#     lidSwitchExternalPower = lidSwitch;
-#     extraConfig = ''
-#       idleAction=lock
-#     '';
-#   };
   ## HiDPI
   # 3840 x 2400 on 14.0" monitor
   services.xserver.dpi = 323;
@@ -165,6 +129,7 @@
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
+
   hardware = {
     # Update the Intel microcode.
     cpu.intel.updateMicrocode = true;
@@ -193,7 +158,6 @@
   };
 
   # Enable sound.
-  # sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -202,19 +166,6 @@
     pulse.enable = true;
   };
 
-  # xdg = {
-  #   portal = {
-  #     enable = true;
-  #     extraPortals = with pkgs; [
-  #       xdg-desktop-portal-wlr
-  #       xdg-desktop-portal-gtk
-  #     ];
-  #     gtkUsePortal = true;
-  #   };
-  # };
-
-
-  # TODO: refactor all of this somewhere else?
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
@@ -250,10 +201,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     brightnessctl # brightness
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim           # To edit configuration.nix!
     wget
   ];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -267,7 +217,7 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # Fix Eduroam
+  # Fix Eduroam.
   environment.etc."wpa_supplicant/openssl.cnf" = {
     source = ./openssl.cnf;
     mode = "0440";
@@ -276,6 +226,7 @@
     Environment = "OPENSSL_CONF=/etc/wpa_supplicant/openssl.cnf";
   };
 
+  # Make Podman available.
   virtualisation = {
     podman = {
       enable = true;
@@ -288,7 +239,6 @@
       defaultNetwork.settings.dns_enabled = true;
     };
   };
-  
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
