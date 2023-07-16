@@ -37,6 +37,14 @@
   # Scale QT stuff automatically.
   home.sessionVariables.QT_AUTO_SCREEN_SCALE_FACTOR = "1";
 
+  # Zoom works better when this is enabled.
+  # https://github.com/telegramdesktop/tdesktop/issues/24164
+  #
+  # I still have bugs, but looks like it's a known bug until upgrading to QT >= 6.5:
+  # - https://bugreports.qt.io/browse/QTBUG-85297
+  # - https://github.com/telegramdesktop/tdesktop/issues/16943
+  home.sessionVariables.QT_QPA_PLATFORM = "wayland";
+
   home.packages = with pkgs; [
     gnomeExtensions.appindicator
     gnomeExtensions.user-themes
