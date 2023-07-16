@@ -40,4 +40,7 @@
   environment.systemPackages = with pkgs; [
     gnome.gnome-tweaks
   ];
+
+  # Probably already installed, but...
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 }
