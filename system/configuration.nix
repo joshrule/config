@@ -50,27 +50,52 @@
     # Disable containers because this install is old.
     enableContainers = false;
 
-    # Silent Boot
-    # https://wiki.archlinux.org/title/Silent_boot
-    kernelParams = [
-      "quiet"
-      "splash"
-      # "vga=current"
-      "rd.systemd.show_status=false"
-      "rd.udev.log_level=3"
-      "udev.log-priority=3"
-      "boot.shell_on_fail"
-    ];
-    consoleLogLevel = 0;
-    # github.com/NixOS/nixpkgs/pull/108294
-    initrd.verbose = false;
+    ## Boot experience
+    ## https://wiki.archlinux.org/title/Silent_boot
 
     # Run plymouth.
-    # plymouth.enable = true;
+    plymouth = {
+      enable = true;
+      themePackages = [ 
+        pkgs.adi1090x-plymouth-themes
+        pkgs.nixos-bgrt-plymouth
+      ];
+      theme = "nixos-bgrt";
+      extraConfig = ''
+        DeviceScale=3
+        UseFirmwareBackground=false
+        VerticalAlignment=0.5
+      '';
+    };
+
+    # Silence as many boot messages as possible.
+    kernelParams = [
+      # Suppress (some) boot messages.
+      "quiet"
+      # Avoid flickering.
+      # https://wiki.archlinux.org/title/Intel_graphics#Fastboot
+      "i915.fastboot=1"
+      # Turn off BGRT (no vendor logo).
+      # https://www.reddit.com/r/linuxquestions/comments/n8ps9j
+      "bgrt_disable"
+      # "rd.systemd.show_status=false"
+      # "rd.udev.log_level=3"
+      # "udev.log-priority=3"
+      # TODO: logically different, so move me.
+      # "boot.shell_on_fail"
+    ];
+    # Start systemd earlier to get plymouth earlier.
+    initrd.systemd.enable = true;
+
     # Load modules to help the boot splash screen.
     initrd.kernelModules = [ "i915" ];
 
-    # TODO: What am I for?
+    # consoleLogLevel = 0;
+    #
+    # # github.com/NixOS/nixpkgs/pull/108294
+    # initrd.verbose = false;
+
+    ## TODO: What am I for?
     tmp.cleanOnBoot = true;
   };
 
