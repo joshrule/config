@@ -147,6 +147,23 @@ in
       cacheHome = "${config.home.homeDirectory}/.local/cache";
       configHome = "${config.home.homeDirectory}/.local/config";
       dataHome = "${config.home.homeDirectory}/.local/share";
+      # https://discourse.nixos.org/t/is-there-any-way-to-modify-an-applications-desktop-file/16739
+      desktopEntries = {
+          "org.codeberg.dnkl.foot" = {
+            name = "Foot";
+            type = "Application";
+            exec = "foot";
+            icon = "foot";
+            terminal = false;
+            categories= [ "System" "TerminalEmulator" ];
+            genericName = "Terminal";
+            comment = "A wayland native terminal emulator";
+            settings = {
+              Keywords = "shell;prompt;command;commandline";
+              StartupWMClass = "foot";
+            };
+          };
+      };
       userDirs = {
           enable = true;
           createDirectories = true;
