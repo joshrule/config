@@ -47,9 +47,6 @@
       efi.canTouchEfiVariables = true;
     };
 
-    # Disable containers because this install is old.
-    enableContainers = false;
-
     ## Boot experience
     ## https://wiki.archlinux.org/title/Silent_boot
 
@@ -251,7 +248,11 @@
     Environment = "OPENSSL_CONF=/etc/wpa_supplicant/openssl.cnf";
   };
 
-  # Make Podman available.
+  ## Make Podman available.
+
+  # Disable containers because this install is old.
+  boot.enableContainers = false;
+  # Actually setup podman.
   virtualisation = {
     podman = {
       enable = true;
