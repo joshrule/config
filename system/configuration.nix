@@ -129,7 +129,12 @@
 
   services.xserver = {
     # Enable touchpad support (enabled default in most desktopManager).
-    libinput.enable = true;
+    libinput = {
+      enable = true;
+      # Disable touchpad while typing.
+      # - https://www.reddit.com/r/NixOS/comments/yprnch/disable_touchpad_while_typing_on_nixos/
+      touchpad.disableWhileTyping = true;
+    };
 
     # video support
     videoDrivers = [ "modesetting" ];

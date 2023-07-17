@@ -36,4 +36,16 @@
       '';
     };
   };
+
+  # Disable touchpad while using kanata.
+  # - https://www.reddit.com/r/NixOS/comments/yprnch/disable_touchpad_while_typing_on_nixos/
+  # - https://github.com/jtroo/kanata/discussions/222
+  # - https://gitlab.freedesktop.org/libinput/libinput/-/issues/617
+  environment.etc."libinput/local-overrides.quirks".text = ''
+    [kanata]
+    MatchUdevType=keyboard
+    MatchBus=usb
+    MatchName=kanata
+    AttrKeyboardIntegration=internal
+  '';
 }
