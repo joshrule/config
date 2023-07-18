@@ -29,6 +29,8 @@
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
+    # Automatically hard link store files to save space.
+    auto-optimise-store = true;
   };
 
   # Configure booting.
