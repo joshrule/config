@@ -34,17 +34,17 @@
       org-roam-directory "~/org/roam/"
       org-roam-dailies-directory "daily/")
 
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+;; Start emacs in fullscreen/maximized.
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 ;; Workaround for upstream emacs 29 bug.
 ;; https://github.com/hlissner/doom-emacs/issues/5785#issuecomment-977536787
 (general-auto-unbind-keys :off)
 (remove-hook 'doom-after-init-modules-hook #'general-auto-unbind-keys)
-
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
