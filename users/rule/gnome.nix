@@ -28,6 +28,14 @@
     };
   };
 
+  ## Cursor
+  home.pointerCursor = {
+    name = "macOS-Monterey";
+    package = pkgs.apple-cursor;
+    size = 40;
+    gtk.enable = true;
+  };
+
   qt = {
     enable = true;
     platformTheme = "gnome";
