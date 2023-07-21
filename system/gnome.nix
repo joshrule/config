@@ -7,7 +7,10 @@
     enable = true;
 
     # Use GDM.
-    displayManager.gdm.enable = true;
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
 
     # Use GNOME.
     desktopManager.gnome.enable = true;
