@@ -5,11 +5,11 @@
     enable = true;
 
     theme = {
-      name = "adwaita";
+      name = "Adwaita";
     };
   };
 
-  home.sessionVariables.GTK_THEME = "adwaita";
+  home.sessionVariables.GTK_THEME = "Adwaita";
 
   dconf.settings = {
     "org/gnome/shell" = {
@@ -24,14 +24,14 @@
     };
 
     "org/gnome/shell/extensions/user-theme" = {
-      name = "adwaita";
+      name = "Adwaita";
     };
   };
 
   qt = {
     enable = true;
     platformTheme = "gnome";
-    style.name = "adwaita";
+    style.name = "Adwaita";
   };
 
   # Scale QT stuff automatically.
